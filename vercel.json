@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "crons": [
+    { "path": "/api/line-cron?job=morning", "schedule": "0 0 * * *" },
+    { "path": "/api/line-cron?job=evening", "schedule": "0 14 * * *" },
+    { "path": "/api/line-cron?job=weekly", "schedule": "0 1 * * 1" }
+  ]
+}
