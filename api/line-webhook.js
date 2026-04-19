@@ -131,6 +131,22 @@ async function handleMessage(text, replyToken) {
   const monthRx = t.match(/^เดือน\s+([1-3])$/);
   if (monthRx) return reply(replyToken, monthPlanText(+monthRx[1]));
 
+  // ── ลิงก์เว็บ ──
+  if (/^(ลิงค์|ลิงก์|link|เว็บ|web|app|แอพ|แอป|dashboard|แดชบอร์ด)$/i.test(t)) {
+    return reply(replyToken, `🌐 Body Transform Dashboard\n━━━━━━━━━━━━━━\n🔗 https://body-transform-tracker.vercel.app\n\n📱 เปิดในมือถือเพื่อดู:\n• กราฟน้ำหนัก\n• ประวัติการออกกำลัง\n• สถิติรายสัปดาห์/เดือน\n• แผนการเปลี่ยนแปลงร่าง`);
+  }
+
+  // ── help ──
+  if (/^(help|คำสั่ง|เมนู|menu|คู่มือ|\?|\/\?)$/i.test(t)) {
+    return reply(replyToken,
+      `🏋️ Body Transform Bot — คำสั่งทั้งหมด\n━━━━━━━━━━━━━━\n` +
+      `📅 แผน:\n• แผนวันนี้ | แผนพรุ่งนี้ | แผนสัปดาห์\n• เดือน 1 / 2 / 3\n\n` +
+      `📝 บันทึก:\n• น้ำหนัก 85.5 (หรือ 85.5 22.5)\n• เสร็จ (หรือ เสร็จ 45)\n• ข้าม\n• กิน ok | กิน ไม่ครบ\n• นอน ok | นอน ไม่พอ\n• มู้ด 1-5\n\n` +
+      `📊 รายงาน:\n• สรุปวัน | สรุปสัปดาห์ | สรุปเดือน\n• เทียบ\n\n` +
+      `🌐 เว็บ:\n• ลิงค์ | เว็บ | app`
+    );
+  }
+
   // ── บันทึก ──
   const weightRx = t.match(/^น้ำหนัก\s+([\d.]+)(?:\s+([\d.]+))?$/);
   if (weightRx) {
@@ -205,12 +221,14 @@ async function handleMessage(text, replyToken) {
   if (/^(สรุปเดือน|สถิติเดือน|สถิติ|stats)$/i.test(t)) return reply(replyToken, await monthReport());
   if (/^(เทียบ|compare|progress)$/i.test(t)) return reply(replyToken, await compareReport());
 
-  // ── help ──
+  // ── unknown input → show all commands ──
   return reply(replyToken,
-    `🏋️ Body Transform Bot\n━━━━━━━━━━━━━━\n` +
+    `❓ ไม่เข้าใจคำสั่ง "${t}"\n━━━━━━━━━━━━━━\n🏋️ Body Transform Bot — คำสั่งทั้งหมด\n\n` +
     `📅 แผน:\n• แผนวันนี้ | แผนพรุ่งนี้ | แผนสัปดาห์\n• เดือน 1 / 2 / 3\n\n` +
     `📝 บันทึก:\n• น้ำหนัก 85.5 (หรือ 85.5 22.5)\n• เสร็จ (หรือ เสร็จ 45)\n• ข้าม\n• กิน ok | กิน ไม่ครบ\n• นอน ok | นอน ไม่พอ\n• มู้ด 1-5\n\n` +
-    `📊 รายงาน:\n• สรุปวัน | สรุปสัปดาห์ | สรุปเดือน\n• เทียบ`
+    `📊 รายงาน:\n• สรุปวัน | สรุปสัปดาห์ | สรุปเดือน\n• เทียบ\n\n` +
+    `🌐 เว็บ:\n• ลิงค์ | เว็บ | app\n\n` +
+    `💡 พิมพ์ help เพื่อดูเมนูอีกครั้ง`
   );
 }
 
